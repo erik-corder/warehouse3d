@@ -13,7 +13,7 @@ jobs:
             - name: Login to Azure Container Registry
               uses: azure/docker-login@v1
               with:
-                  login-server: $${{ secrets.ACR_ENDPOINT }}
+                  login-server: ${{ secrets.ACR_ENDPOINT }}
                   username: ${{ secrets.ACR_USERNAME }}
                   password: ${{ secrets.ACR_PASSWORD }}
                   
@@ -22,5 +22,5 @@ jobs:
               with:
                 context: .
                 push: true
-                tags: crnzsbregistryauedev.azurecr.io/shopnx-app:${{ github.sha }}, crnzsbregistryauedev.azurecr.io/shopnx-app:latest
+                tags: ${{ secrets.ACR_ENDPOINT }}/wms-app:${{ github.sha }}, ${{ secrets.ACR_ENDPOINT }}/wms-app:latest
                 file: ./Dockerfile
