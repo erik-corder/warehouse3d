@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider     = "mysql"
-  url          ="mysql://root@127.0.0.1:3306/prisma_db"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
@@ -75,7 +75,7 @@ model Products {
   price             Decimal
   stock             Decimal
   rating            Decimal
-  movingStatus      MovingStatus?  @default(SLOW)
+  movingStatus      MovingStatus?    @default(SLOW)
   productLocationId Int?
   ProductLocation   ProductLocation? @relation(fields: [productLocationId], references: [id])
   createdAt         DateTime         @default(now())
