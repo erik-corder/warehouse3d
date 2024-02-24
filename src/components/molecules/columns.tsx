@@ -13,7 +13,7 @@ export type ProdProps = {
   description?: string | null;
   brand?: string;
   category?: string;
-  price?: Prisma.Decimal;
+  price?: any;
   stock?: number;
   thumbnail?: string;
   ProductLocation?: any;
