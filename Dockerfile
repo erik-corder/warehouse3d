@@ -9,9 +9,8 @@ RUN yarn install
 # Production image, copy all the files and run next
 FROM node:20.10.0-alpine AS builder
 WORKDIR /app
-COPY . /app
 COPY --from=deps /app/node_modules ./node_modules
-# COPY .env .env
+COPY .env .env
 # Show .env file
 RUN cat .env
 COPY . .
