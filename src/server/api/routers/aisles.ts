@@ -52,7 +52,7 @@ export const aisleRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       try {
         // Start transaction
-        await ctx.prisma.$transaction(async (prisma) => {
+        await ctx.prisma.$transaction(async (prisma: any) => {
           const aisle = await prisma.aisles.create({
             data: {
               x: input.x,
