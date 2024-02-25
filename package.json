@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "next -p 8080",
+    "dev": "next -p 3000",
     "postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start"
