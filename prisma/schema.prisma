@@ -39,7 +39,7 @@ model Zones {
   width     Int
   length    Int
   name      String
-  area      Areas    @relation(fields: [areaId], references: [id])
+  area      Areas    @relation(fields: [areaId], references: [id], onDelete: Cascade)
   areaId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -56,9 +56,9 @@ model Aisles {
   levels          Int
   levelNames      String
   racks           Int
-  area            Areas             @relation(fields: [areaId], references: [id])
+  area            Areas             @relation(fields: [areaId], references: [id], onDelete: Cascade)
   areaId          Int
-  zone            Zones             @relation(fields: [zoneId], references: [id])
+  zone            Zones             @relation(fields: [zoneId], references: [id], onDelete: Cascade)
   zoneId          Int
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
@@ -77,7 +77,7 @@ model Products {
   rating            Decimal
   movingStatus      MovingStatus?    @default(SLOW)
   productLocationId Int?
-  ProductLocation   ProductLocation? @relation(fields: [productLocationId], references: [id])
+  ProductLocation   ProductLocation? @relation(fields: [productLocationId], references: [id], onDelete: SetNull)
   createdAt         DateTime         @default(now())
   updatedAt         DateTime         @updatedAt
 }
@@ -91,7 +91,7 @@ enum MovingStatus {
 
 model ProductLocation {
   id        Int        @id @default(autoincrement())
-  aisle     Aisles     @relation(fields: [aisleId], references: [id])
+  aisle     Aisles     @relation(fields: [aisleId], references: [id], onDelete: Cascade)
   aisleId   Int
   location  String
   isFilled  Boolean
