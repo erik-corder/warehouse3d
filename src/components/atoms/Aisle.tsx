@@ -500,7 +500,7 @@ const Aisle: FC<AisleProps> = ({ aisle, controls }) => {
 
                       return (
                         <>
-                          <LocationBox
+                          {/* <LocationBox
                             key={temp.id}
                             locationId={temp?.id}
                             onClick={(e) => {
@@ -527,7 +527,7 @@ const Aisle: FC<AisleProps> = ({ aisle, controls }) => {
                             rotation={
                               aisle.axis === "x" ? [0, 0, 0] : [0, -1.5708, 0]
                             }
-                          />
+                          /> */}
                           {selectedLocation === temp.location && (
                             <Annotations
                               position={[

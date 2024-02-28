@@ -63,7 +63,7 @@ const ThreeDPlane: FC<ThreeDPlaneProps> = ({
         className="relative h-full w-full overflow-auto border"
         id="three-d-canvas"
       >
-        <Canvas shadows>
+        <Canvas shadows frameloop="demand">
           <PerspectiveCamera makeDefault position={[-50, 50, -50]} fov={40} />
           <color args={["0xcccccc"]} attach="background" />
           <Grid position={[0, -0.01, 0]} {...gridConfig} args={[100]} />
@@ -77,7 +77,7 @@ const ThreeDPlane: FC<ThreeDPlaneProps> = ({
             />
             {/* alternative: <GizmoViewcube /> */}
           </GizmoHelper>
-          <OrbitControls ref={ref} makeDefault position={[-30, 50, -30]} maxPolarAngle={1.5} />
+          <OrbitControls ref={ref} makeDefault position={[-30, 50, -30]} maxPolarAngle={1.6} />
           <ambientLight
             intensity={3}
             position={[-30, 50, -30]}
