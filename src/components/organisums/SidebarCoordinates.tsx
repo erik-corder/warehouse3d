@@ -160,6 +160,90 @@ export function SidebarCoordinates({ className }: SidebarProps) {
     },
   });
 
+  // For deleting areas
+  const { mutate: deleteArea, isLoading: isLoadingDeleteArea } =
+    api.areas.deleteArea.useMutation({
+      onMutate: () => {
+        utils.areas.allAreas.cancel();
+        const optimisticUpdate = utils.areas.allAreas.getData();
+
+        if (!optimisticUpdate) {
+          utils.areas.allAreas.setData(optimisticUpdate);
+        }
+      },
+      onSettled: () => {
+        utils.areas.allAreas.invalidate();
+        refetch();
+        refetchAisle();
+        toast.success("Floor deleted Successfully", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        window.location.reload();
+      },
+    });
+
+  // For deleting zones
+  const { mutate: deleteZone, isLoading: isLoadingDeleteZone } =
+    api.zones.deleteZone.useMutation({
+      onMutate: () => {
+        utils.zones.allZones.cancel();
+        const optimisticUpdate = utils.zones.allZones.getData();
+
+        if (!optimisticUpdate) {
+          utils.zones.allZones.setData(optimisticUpdate);
+        }
+      },
+      onSettled: () => {
+        utils.zones.allZones.invalidate();
+        refetch();
+        refetchAisle();
+        toast.success("Zone deleted Successfully", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      },
+    });
+
+  // For deleting aisles
+  const { mutate: deleteAisle, isLoading: isLoadingDeleteAisle } =
+    api.aisles.deleteAisle.useMutation({
+      onMutate: () => {
+        utils.zones.allZones.cancel();
+        const optimisticUpdate = utils.zones.allZones.getData();
+
+        if (!optimisticUpdate) {
+          utils.zones.allZones.setData(optimisticUpdate);
+        }
+      },
+      onSettled: () => {
+        utils.zones.allAisles.invalidate();
+        refetchAisle();
+        toast.success("Aisle deleted Successfully", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      },
+    });
+
   const updateAreaZonesAisles = () => {
     updateAll.mutate({
       area: selectedArea,
@@ -308,7 +392,7 @@ export function SidebarCoordinates({ className }: SidebarProps) {
             </h3>
             <div>
               {area.map((area: any, index: any) => (
-                <div className="flex items-center pb-4" key={index}>
+                <div className="flex w-full pb-4" key={index}>
                   <input
                     id="default-radio-1"
                     type="radio"
@@ -388,6 +472,17 @@ export function SidebarCoordinates({ className }: SidebarProps) {
               >
                 ADD NEW FLOOR
               </Button>
+              <Button
+                className="w-fit"
+                size="small"
+                isLoading={isLoadingDeleteArea}
+                onClick={() => {
+                  deleteArea({ id: selectedArea.id });
+                }}
+                isDisabled={!selectedArea?.id}
+              >
+                DELETE SELECTED FLOOR
+              </Button>
             </div>
           </div>
           {Object.keys(selectedArea).length !== 0 && (
@@ -399,12 +494,21 @@ export function SidebarCoordinates({ className }: SidebarProps) {
                 <ol className="flex flex-col flex-wrap gap-2">
                   {selectedZones?.map((zone: any, index: any) => (
                     <li key={index}>
-                      <span className="rounded-2xl border border-blue-700 bg-blue-50 px-2 py-1 text-sm text-blue-700">
+                      <div className="flex items-center gap-1 rounded-2xl border border-blue-700 bg-blue-50 px-2 py-1 text-sm text-blue-700">
                         {zone.name}{" "}
                         <span className="text-xs text-blue-500">
                           {Math.round(zone.width)}m x{Math.round(zone.length)}m
                         </span>
-                      </span>
+                        <Button
+                          className="ml-1 !border-none text-[10px]"
+                          onClick={() => {
+                            deleteZone({ id: zone.id });
+                          }}
+                          isDisabled={isLoadingDeleteZone}
+                        >
+                          ❌
+                        </Button>
+                      </div>
                     </li>
                   ))}
                 </ol>
@@ -471,12 +575,21 @@ export function SidebarCoordinates({ className }: SidebarProps) {
                 <ol className="flex flex-col flex-wrap gap-2">
                   {selectedAisle?.map((aisle: any, index: any) => (
                     <li key={index}>
-                      <span className="rounded-2xl border border-orange-700 bg-orange-50 px-2 py-1 text-sm text-orange-700">
+                      <div className="flex items-center gap-1 rounded-2xl border border-orange-700 bg-orange-50 px-2 py-1 text-sm text-orange-700">
                         {aisle.name}{" "}
                         <span className="text-xs text-orange-500">
                           ( racks - {aisle.racks} | levels - {aisle.levels} )
                         </span>
-                      </span>
+                        <Button
+                          className="ml-1 !border-none text-[10px]"
+                          onClick={() => {
+                            deleteAisle({ id: aisle.id });
+                          }}
+                          isDisabled={isLoadingDeleteAisle}
+                        >
+                          ❌
+                        </Button>
+                      </div>
                     </li>
                   ))}
                 </ol>
