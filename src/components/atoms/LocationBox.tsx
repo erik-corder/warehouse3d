@@ -67,14 +67,6 @@ export function LocationBox(props: LocationBoxProps) {
           position={[0, 25, 0]}
           scale={[0.95, 1.4, 0.98]}
         />
-
-        {/* <Box
-          args={[1, 1, 1]}
-          position={[0, 25, 0]}
-          material={material}
-          scale={[0.95, 1.4, 0.98]}
-        /> */}
-
       </group>
     </group>
   );

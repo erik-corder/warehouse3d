@@ -4,6 +4,7 @@
 import {
   Billboard,
   Bounds,
+  Box,
   GizmoHelper,
   GizmoViewport,
   Grid,
@@ -20,6 +21,7 @@ import Zone from "./atoms/Zone";
 import Aisle from "./atoms/Aisle";
 import * as THREE from "three";
 import Loading from "./atoms/Loading";
+import { LocationBox } from "./atoms/LocationBox";
 
 interface ThreeDPlaneProps {
   allAisle: any;
@@ -51,7 +53,7 @@ const ThreeDPlane: FC<ThreeDPlaneProps> = ({
 
   if (isAisleLoading || isAreasLoading) {
     return (
-      <div className="flex h-full justify-center items-center">
+      <div className="flex h-full items-center justify-center">
         <Loading />
       </div>
     );
@@ -77,7 +79,12 @@ const ThreeDPlane: FC<ThreeDPlaneProps> = ({
             />
             {/* alternative: <GizmoViewcube /> */}
           </GizmoHelper>
-          <OrbitControls ref={ref} makeDefault position={[-30, 50, -30]} maxPolarAngle={1.6} />
+          <OrbitControls
+            ref={ref}
+            makeDefault
+            position={[-30, 50, -30]}
+            maxPolarAngle={1.6}
+          />
           <ambientLight
             intensity={3}
             position={[-30, 50, -30]}
